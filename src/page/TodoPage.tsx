@@ -1,10 +1,16 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { IToDoList } from "../assets/types";
 import GroupButton from "../component/GroupButton/GroupButton";
 import GroupToDo from "../component/GroupToDo/GroupToDo";
+import {
+  addGroupTodo,
+  emptyInitalState,
+} from "../redux/reducer/todoListReducer";
 import Rules from "../component/Rules/Rules";
 
 const TodoPage = () => {
+  const dispatch = useDispatch();
   const [groupCount, setGroupCount] = useState<number>(1);
 
   const [todoList, setTodoList] = useState<IToDoList[]>([
@@ -24,6 +30,7 @@ const TodoPage = () => {
         throw new Error("Failed to fetch data");
       }
       const newData = await response.json();
+      dispatch(addGroupTodo(newData));
       setData((prevData: any) => {
         const idSet = new Set(prevData.map((item: any) => item.id));
         if (!idSet.has(newData.id)) {
@@ -42,6 +49,7 @@ const TodoPage = () => {
   };
 
   const addGroup = () => {
+    dispatch(emptyInitalState());
     todoList[todoList.length - 1]?.from > 8
       ? alert("All Todo is Done")
       : setGroupCount(todoList.length + 1);
@@ -57,7 +65,7 @@ const TodoPage = () => {
   };
 
   const checkChecks = () => {
-    setData([]); // redux data clear
+    dispatch(emptyInitalState());
     let checkCount = 0;
     for (let item in todoList) {
       if (Number(todoList[item].from) > 1 && checkCount === 0) {
@@ -71,7 +79,6 @@ const TodoPage = () => {
         ) {
           if (checkCount === i - 1) {
             checkCount = i;
-            console.log(checkCount, "checkCount");
           } else {
             alert(`Please check Group ${todoList[item].id}`);
             return;
@@ -85,11 +92,10 @@ const TodoPage = () => {
       alert("Please check all Todo");
     }
   };
-  console.log(data);
 
   return (
     <>
-      {/* <Rules /> */}
+      <Rules />
       <GroupToDo
         todoList={todoList}
         setTodoList={setTodoList}

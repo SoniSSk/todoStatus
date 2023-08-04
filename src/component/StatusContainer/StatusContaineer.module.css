@@ -6,7 +6,16 @@
     align-items: center;
     width: 50%;
     padding-left: 10px;
-    justify-content: flex-start;
-    font-size: 14px;
+    justify-content: space-between;
+    font-size: 12px;
     gap: 2px
+}
+.correct{
+    width: 15px;
+    height: 15px;
+    padding-right: 10px;
+}
+.status_texs{
+    display: flex;
+    gap :2px
 }

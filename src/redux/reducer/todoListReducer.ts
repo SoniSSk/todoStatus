@@ -1,18 +1,20 @@
-const initialState = [
-  {
-    id: 1,
-    label: "Group",
-    from: 1,
-    to: 10,
-  },
-];
+import { createSlice } from "@reduxjs/toolkit";
+import { responseTodoList } from "../../assets/types";
 
-const toDoListReducer = (state: any = initialState, action: any) => {
-  switch (action.type) {
-    case "ADD_TODO":
-      return [...state, action.payload];
-    default:
-      return state;
-  }
-};
-export default toDoListReducer;
+const initialState: responseTodoList[] = [];
+
+const userSlice = createSlice({
+  name: "todoList",
+  initialState,
+  reducers: {
+    addGroupTodo: (state, action) => {
+      state.push(action.payload);
+    },
+
+    emptyInitalState: () => {
+      return initialState;
+    },
+  },
+});
+export const { addGroupTodo, emptyInitalState } = userSlice.actions;
+export default userSlice.reducer;

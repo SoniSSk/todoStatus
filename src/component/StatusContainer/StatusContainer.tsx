@@ -1,36 +1,41 @@
-import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import styles from "../StatusContainer/StatusContaineer.module.css";
-
-interface statusContainerProps {
-  from?: number;
-  to?: number;
-  status?: any;
-}
+import correct from "../../assets/images/correct.png";
+import { statusContainerProps } from "../../assets/types";
 
 const StatusContainer = (props: statusContainerProps) => {
-  const { status, from = 1, to = 3 } = props;
-  console.log(status, "status");
+  const { from = 1, to = 3 } = props;
+
+  const status = useSelector((state: any) => state.todoList);
+
   const arr = [];
   for (let i = Number(from); i <= Number(to); i++) {
     arr.push(status[i - 1]?.completed);
   }
-  console.log(arr, "arr");
   return (
     <div className={styles.container}>
-      {arr.map((item: any, index: number) => {
-        return (
-          <div className={styles.status_container} key={index}>
-            {item !== undefined ? (
-              <div className={styles.status}>
-                ({Number(from) + index}) {item ? "True" : "False"}
-                {Number(to) === Number(from) + index ? "" : ","}
+      <div className={styles.status_texs}>
+        {status.length === 10 &&
+          arr.map((item: any, index: number) => {
+            return (
+              <div className={styles.status_container} key={index}>
+                {item !== undefined ? (
+                  <div className={styles.status}>
+                    ({Number(from) + index}) {item ? "True" : "False"}
+                    {Number(to) === Number(from) + index ? "" : ","}
+                  </div>
+                ) : (
+                  ""
+                )}
               </div>
-            ) : (
-              ""
-            )}
-          </div>
-        );
-      })}
+            );
+          })}
+      </div>
+      {status.length === 10 && (
+        <div>
+          <img src={correct} alt="correct" className={styles.correct} />
+        </div>
+      )}
     </div>
   );
 };

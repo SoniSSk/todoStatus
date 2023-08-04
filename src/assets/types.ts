@@ -17,3 +17,15 @@ export interface IToDoListState {
   fetchedData: any;
   setFetchedData: any;
 }
+
+export interface responseTodoList {
+  userId?: number;
+  id: number;
+  title: string;
+  completed: boolean;
+}
+
+export interface statusContainerProps {
+  from?: number;
+  to?: number;
+}
