@@ -8,10 +8,12 @@ import {
   emptyInitalState,
 } from "../redux/reducer/todoListReducer";
 import Rules from "../component/Rules/Rules";
+import { LoderWrapper } from "../component/LoaderWrapper";
 
 const TodoPage = () => {
   const dispatch = useDispatch();
   const [groupCount, setGroupCount] = useState<number>(1);
+  const [loaderStatus, setLoaderStatus] = useState<boolean>(false);
 
   const [todoList, setTodoList] = useState<IToDoList[]>([
     {
@@ -45,6 +47,9 @@ const TodoPage = () => {
   const fetchAllData = async () => {
     for (let i = 1; i <= 10; i++) {
       await fetchData(i);
+      if (i === 10) {
+        setLoaderStatus(false);
+      }
     }
   };
 
@@ -87,6 +92,7 @@ const TodoPage = () => {
       }
     }
     if (checkCount === 10) {
+      setLoaderStatus(true);
       fetchAllData();
     } else {
       alert("Please check all Todo");
@@ -105,6 +111,7 @@ const TodoPage = () => {
         setFetchedData={setData}
       />
       <GroupButton addGroup={addGroup} checkChecks={checkChecks} />
+      {loaderStatus && <LoderWrapper />}
     </>
   );
 };
