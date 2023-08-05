@@ -12,7 +12,7 @@ const Rules = () => {
   return (
     <div className={styles.container}>
       {RulesList.map((item, index) => {
-        return <div key={`Rule ${index}`}>{`Rule ${index}: ${item}`}</div>;
+        return <div key={`Rule ${index}`}>{`Rule ${index + 1}: ${item}`}</div>;
       })}
     </div>
   );
