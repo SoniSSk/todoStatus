@@ -1,6 +1,3 @@
-import * as React from "react";
-import CircularProgress from "@mui/material/CircularProgress";
-import Box from "@mui/material/Box";
 import { useLottie } from "lottie-react";
 import animation from "../assets/lottie_loader/RDTaiLoader.json";
 
