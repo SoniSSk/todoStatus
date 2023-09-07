@@ -18,6 +18,15 @@
     align-items: center;
     justify-content: center;
 }
+.group_container_error{
+    background: red;
+    border-radius: 5px;
+    height: 56px;
+    width: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
 .delete_image {
     cursor: pointer;

@@ -6,11 +6,13 @@ import { IToDoListState } from "../../assets/types";
 import { emptyInitalState } from "../../redux/reducer/todoListReducer";
 import StatusContainer from "../StatusContainer/StatusContainer";
 import styles from "./GroupToDo.module.css";
+import { useState } from "react";
 
 const GroupToDo = (props: IToDoListState) => {
   const { todoList, setTodoList, groupCount = 1, setGroupCount } = props;
 
   const dispatch = useDispatch();
+  const [wrongGroup, setWrongGroup] = useState<any>();
 
   // Input From Input Field
   const fromChange = (e: any, id: number) => {
@@ -22,7 +24,7 @@ const GroupToDo = (props: IToDoListState) => {
           if (item.id === id) {
             return {
               ...item,
-              from: e.target.value,
+              from: Number(e.target.value),
             };
           }
           return item;
@@ -41,7 +43,12 @@ const GroupToDo = (props: IToDoListState) => {
           if (item.id === id) {
             return {
               ...item,
-              to: e.target.value,
+              to: Number(e.target.value),
+            };
+          } else if (item.id === id + 1) {
+            return {
+              ...item,
+              from: Number(item.to + 1),
             };
           }
           return item;
@@ -54,12 +61,14 @@ const GroupToDo = (props: IToDoListState) => {
   const onDelete = (id: number) => {
     if (todoList.length > 1) {
       dispatch(emptyInitalState());
+      setWrongGroup(Number(id + 1));
       setTodoList((prevData: any) => {
         return prevData.filter((item: any) => item.id !== id);
       });
       setGroupCount(groupCount - 1);
     }
   };
+  console.log(wrongGroup, "wrongGroup");
 
   return (
     <div>
@@ -73,10 +82,19 @@ const GroupToDo = (props: IToDoListState) => {
               className={styles.delete_image}
               onClick={() => onDelete(id)}
             />
-            <div className={styles.group_container}>Group {id}</div>
+            <div
+              className={
+                wrongGroup !== id
+                  ? styles.group_container
+                  : styles.group_container_error
+              }
+            >
+              Group {id}
+            </div>
             <TextField
               label="From"
               variant="outlined"
+              required={true}
               value={from}
               onChange={(e: any) => {
                 dispatch(emptyInitalState());

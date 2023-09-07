@@ -16,6 +16,7 @@ export interface IToDoListState {
   setGroupCount: any;
   fetchedData: any;
   setFetchedData: any;
+  wrongGroup?: any;
 }
 
 export interface responseTodoList {

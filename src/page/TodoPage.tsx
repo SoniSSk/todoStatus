@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { IToDoList } from "../assets/types";
 import GroupButton from "../component/GroupButton/GroupButton";
@@ -9,6 +9,7 @@ import {
 } from "../redux/reducer/todoListReducer";
 import Rules from "../component/Rules/Rules";
 import { LoderWrapper } from "../component/LoaderWrapper";
+import animation from "../assets/lottie_loader/RDTaiLoader.json";
 
 const TodoPage = () => {
   const dispatch = useDispatch();
@@ -63,8 +64,8 @@ const TodoPage = () => {
         ...todoList,
         {
           id: Number(todoList[groupCount - 1]?.id + 1),
-          from: 0,
-          to: 0,
+          from: Number(todoList[groupCount - 1]?.to) + 1,
+          to: 10,
         },
       ]);
   };
@@ -72,23 +73,26 @@ const TodoPage = () => {
   const checkChecks = () => {
     dispatch(emptyInitalState());
     let checkCount = 0;
+    let arr = [];
     for (let item in todoList) {
-      if (Number(todoList[item].from) > 1 && checkCount === 0) {
-        alert(`Please check Group ${todoList[item].id}`);
-        return;
-      } else {
-        for (
-          let i = Number(todoList[item].from);
-          i <= Number(todoList[item].to);
-          i++
-        ) {
-          if (checkCount === i - 1) {
-            checkCount = i;
-          } else {
-            alert(`Please check Group ${todoList[item].id}`);
-            return;
-          }
-        }
+      for (
+        let i = Number(todoList[item].from);
+        i <= Number(todoList[item].to);
+        i++
+      ) {
+        arr[i] = i;
+        // if (checkCount === i - 1) {
+        //   checkCount = i;
+        //  a
+        // } else {
+        //   alert(`Please check Group ${todoList[item].id}`);
+        //   return;
+        // }
+      }
+
+      console.log(arr, arr.length, "arr");
+      if (arr.length - 1 === 10) {
+        checkCount = arr.length;
       }
     }
     if (checkCount === 10) {
@@ -98,6 +102,29 @@ const TodoPage = () => {
       alert("Please check all Todo");
     }
   };
+
+  // useEffect(() => {
+  //   setTodoList((prevData: any) => {
+  //     return prevData.map((item: any, index: any) => {
+
+  //       if (item.id === index) {
+  //         return {
+  //           ...item,
+  //           to: item.to,
+  //         };
+  //       } else if (item.id === groupCount && groupCount !== 1) {
+  //         return {
+  //           ...item,
+  //           from: Number(item.to + 1),
+  //           to: 10,
+  //         };
+  //       }
+  //       return item;
+  //     });
+  //   });
+  // }, [groupCount]);
+
+  console.log(todoList, "groupCount");
 
   return (
     <>
@@ -109,9 +136,13 @@ const TodoPage = () => {
         setGroupCount={setGroupCount}
         fetchedData={data}
         setFetchedData={setData}
+        // wrongGroup={wrongGroup}
       />
       <GroupButton addGroup={addGroup} checkChecks={checkChecks} />
-      {loaderStatus && <LoderWrapper />}
+      {loaderStatus && <LoderWrapper loaderFile={animation} />}
+      {/* <div className={styles.container_card}>
+        <CardWrapper />
+      </div> */}
     </>
   );
 };

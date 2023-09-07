@@ -31,3 +31,12 @@
     align-items: center;
     justify-content: center;
 }
+
+
+.container_card{
+    padding: 30px;
+    display: flex;
+    gap: 40px;
+    width: 100%;
+    flex-wrap: wrap;
+}

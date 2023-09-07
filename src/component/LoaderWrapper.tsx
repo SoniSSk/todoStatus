@@ -1,11 +1,19 @@
 import { useLottie } from "lottie-react";
-import animation from "../assets/lottie_loader/RDTaiLoader.json";
+import { Suspense, lazy } from "react";
 
-export const LoderWrapper = () => {
+// const Home = lazy(() => import("../page/TodoPage"));
+// <Suspense fallback="loding">kuldeep</Suspense>;
+
+interface loderProps {
+  loaderFile: any;
+}
+export const LoderWrapper = (props: loderProps) => {
+  const { loaderFile } = props;
+
   const defaultOptions = {
     loop: true,
     autoplay: true,
-    animationData: animation,
+    animationData: loaderFile,
     rendererSettings: {
       preserveAspectRatio: "xMidYMid slice",
     },
@@ -19,11 +27,12 @@ export const LoderWrapper = () => {
         position: "absolute",
         top: "50%",
         left: "46%",
-        width: "50px",
+        borderRadius: "30px",
+        width: "100px",
+        height: "100px",
       }}
     >
       {lottie}
-      <div>Loading...</div>
     </div>
   );
 };
