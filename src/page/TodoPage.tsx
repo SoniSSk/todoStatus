@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { IToDoList } from "../assets/types";
 import GroupButton from "../component/GroupButton/GroupButton";

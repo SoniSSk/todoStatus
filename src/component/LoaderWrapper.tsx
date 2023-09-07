@@ -1,5 +1,4 @@
 import { useLottie } from "lottie-react";
-import { Suspense, lazy } from "react";
 
 // const Home = lazy(() => import("../page/TodoPage"));
 // <Suspense fallback="loding">kuldeep</Suspense>;
